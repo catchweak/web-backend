@@ -2,6 +2,8 @@ package catchweak.web.news.controller
 
 import catchweak.web.news.dao.Article
 import catchweak.web.news.service.ArticleService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -24,8 +26,8 @@ class ArticleController(private val articleService: ArticleService) {
         return articleService.getHeadlines()
     }
 
-//    @PostMapping
-//    fun createArticle(@RequestBody article: Article): Article {
-//        return articleService.createArticle(article)
-//    }
+    @GetMapping("/category")
+    fun getArticlesByCategory(@RequestParam categoryCode: String, pageable: Pageable): Page<Article> {
+        return articleService.getArticlesByCategory(categoryCode, pageable)
+    }
 }

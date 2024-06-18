@@ -2,6 +2,8 @@ package catchweak.web.news.service
 
 import catchweak.web.news.dao.Article
 import catchweak.web.news.repository.ArticleRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -21,7 +23,7 @@ class ArticleService(private val articleRepository: ArticleRepository) {
         return articleRepository.findAllWithCategoryAndSite().sortedByDescending { it.articleCreatedAt }.take(5)
     }
 
-//    fun createArticle(article: Article): Article {
-//        return articleRepository.save(article)
-//    }
+    fun getArticlesByCategory(categoryCode: String, pageable: Pageable): Page<Article> {
+        return articleRepository.findByCategoryCode(categoryCode, pageable)
+    }
 }
