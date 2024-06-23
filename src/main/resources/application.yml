@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: catch-weak
+  profiles:
+    default: local
+
+server:
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/catch_weak
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: root
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    root: info
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    use-root-path: true
+    disable-swagger-default-url: true # petstore html ????
+    tags-sorter: alpha
+    operations-sorter: alpha
+#    path: /swagger
+
+jwt:
+  secret: hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123
+  access-token-expiration: 18000000 # 300 min
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE;mode=mysql
+      username: sa
+      password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    root: info
+
+#jwt:
+#  secret: hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123
+#  access-token-expiration: 18000000 # 300 min
