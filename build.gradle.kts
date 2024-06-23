@@ -19,15 +19,30 @@ repositories {
 }
 
 dependencies {
+	/* spring */
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	implementation("org.projectlombok:lombok")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
+
+	/* jpa */
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	/* db */
+	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
+	/* redis */
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+//	implementation("org.redisson:redisson-spring-boot-starter:3.17.4")
+
+	/* test */
+	runtimeOnly("com.h2database:h2")
+	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-	// spring boot jpa
-	implementation("org.mariadb.jdbc:mariadb-java-client:2.7.2")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 }
 
 tasks.withType<KotlinCompile> {
