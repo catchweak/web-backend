@@ -10,6 +10,8 @@ plugins {
 group = "catchweak"
 version = "0.0.1-SNAPSHOT"
 
+val jwtVersion = "0.11.5"
+
 java {
 	sourceCompatibility = JavaVersion.VERSION_21
 }
@@ -27,7 +29,6 @@ dependencies {
 	implementation("org.projectlombok:lombok")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
-
 	/* jpa */
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
@@ -37,6 +38,11 @@ dependencies {
 	/* redis */
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 //	implementation("org.redisson:redisson-spring-boot-starter:3.17.4")
+
+	/* jwt */
+	implementation("io.jsonwebtoken:jjwt-api:${jwtVersion}")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:${jwtVersion}")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:${jwtVersion}")
 
 	/* test */
 	runtimeOnly("com.h2database:h2")
