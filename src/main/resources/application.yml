@@ -71,7 +71,3 @@ spring:
 logging:
   level:
     root: info
-
-#jwt:
-#  secret: hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123hihello123
-#  access-token-expiration: 18000000 # 300 min
