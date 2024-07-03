@@ -28,7 +28,17 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
+	/* morpheme analyzer */
+	// https://mvnrepository.com/artifact/org.openkoreantext/open-korean-text
+	implementation("org.openkoreantext:open-korean-text:2.3.1")
+
+	/* logger */
+	// SLF4J and Logback dependencies
+	implementation("org.slf4j:slf4j-api:2.0.7")
+	testImplementation("ch.qos.logback:logback-classic:1.4.14")
+
 	/* jpa */
+	implementation("org.mariadb.jdbc:mariadb-java-client:2.7.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	/* db */
