@@ -1,3 +1,6 @@
+### configuration ###
+/src/main/resources/.env
+
 ### COMMON ###
 HELP.md
 .gradle
