@@ -43,9 +43,10 @@ springdoc:
 #    path: /swagger
 
 jwt:
-  secret: ${JWT_SECRET:default_secret_key}
+  secret: ${JWT_SECRET}
   access-token-expiration: 18000000 # 300 min
 
+client-host: ${CLIENT_HOST:http://localhost:3000}
 ---
 
 spring:

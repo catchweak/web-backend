@@ -33,7 +33,7 @@ class SecurityConfig(
 
         // api white list
         val API_WHITE_LIST = arrayOf(
-            "/auth/**"
+            "/api/**"
         )
     }
 
@@ -41,7 +41,7 @@ class SecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .csrf { it.disable() }
-            .cors { it.disable() }
+            .cors {  }
             .formLogin { it.disable() }
             .httpBasic { it.disable() }
             .headers { it.frameOptions { frameOptions -> frameOptions.disable() }.disable() }
@@ -52,7 +52,7 @@ class SecurityConfig(
                         .requestMatchers(*RESOURCE_LIST).permitAll()
                         .requestMatchers(*PERMITTED_LIST).permitAll()
                         .requestMatchers(*API_WHITE_LIST).permitAll()
-                        .requestMatchers("/api/**").authenticated()
+//                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                     // .anyRequest().permitAll() // 로그인 하지 않고 모두 권한을 가짐
                 } catch (e: Exception) {
