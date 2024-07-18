@@ -15,6 +15,6 @@ interface ArticleRepository : JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a LEFT JOIN FETCH a.category c LEFT JOIN FETCH c.site WHERE c.code = :categoryCode")
     fun findByCategoryCode(@Param("categoryCode") categoryCode: String, pageable: Pageable): Page<Article>
 
-    @Query("SELECT a FROM Article a WHERE a.processed = false OR a.processed = null ORDER BY a.id LIMIT :limit", nativeQuery = true)
-    fun findUnprocessedArticles(@Param("limit") limit: Long = 300): List<Article>
+    @Query("SELECT a FROM Article a WHERE a.processed = false OR a.processed = null ORDER BY a.id LIMIT 300")
+    fun findUnprocessedArticles(): List<Article>
 }

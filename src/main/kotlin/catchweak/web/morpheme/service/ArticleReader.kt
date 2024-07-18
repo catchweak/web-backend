@@ -14,8 +14,7 @@ class ArticleReader(private val articleService: ArticleService, private val morp
 
     override fun read(): List<Article>? {
         logger.info("fetch articles...")
-        // 10분 기준 300개
-        val articles = articleService.getUnProcessedArticles(300)
+        val articles = articleService.getUnProcessedArticles()
 
         if(articles.isEmpty()){
             logger.error("fetch articles error, article not found")
