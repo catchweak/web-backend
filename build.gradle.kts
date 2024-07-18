@@ -27,6 +27,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-batch")
 
 	/* morpheme analyzer */
 	// https://mvnrepository.com/artifact/org.openkoreantext/open-korean-text
@@ -38,7 +39,6 @@ dependencies {
 	testImplementation("ch.qos.logback:logback-classic:1.4.14")
 
 	/* jpa */
-	implementation("org.mariadb.jdbc:mariadb-java-client:2.7.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	/* db */
