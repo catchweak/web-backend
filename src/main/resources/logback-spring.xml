@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- properties -->
+    <property name="CONSOLE_PATTERN" value="%d{yyyy-MM-dd'T'HH:mm:ss.SSS}  %green(%-5level) %magenta(${PID:-}) --- [catch-weak] [%thread] %cyan(%logger{36}) - %msg%n"/>
+
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender for 형태소분석배치 Logs -->
+    <appender name="MORPHEME_BATCH_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/morpheme_batch.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/morpheme_batch.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender for 형태소분석 Logs -->
+    <appender name="MORPHEME_ANALYSIS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/morpheme_analysis.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/morpheme_analysis.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger for 형태소분석배치 -->
+    <logger name="catchweak.web.morpheme.service" level="INFO" additivity="false">
+        <appender-ref ref="MORPHEME_BATCH_FILE" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <logger name="catchweak.web.morpheme.tasklet" level="INFO" additivity="false">
+        <appender-ref ref="MORPHEME_BATCH_FILE" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <!-- Logger for 형태소분석 -->
+    <logger name="catchweak.web.morpheme.strategy" level="INFO" additivity="false">
+        <appender-ref ref="MORPHEME_ANALYSIS_FILE" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <!-- Root Logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
