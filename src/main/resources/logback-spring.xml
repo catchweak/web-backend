@@ -37,17 +37,21 @@
     <!-- Logger for 형태소분석배치 -->
     <logger name="catchweak.web.morpheme.service" level="INFO" additivity="false">
         <appender-ref ref="MORPHEME_BATCH_FILE" />
-        <appender-ref ref="CONSOLE" />
+<!--        <appender-ref ref="CONSOLE" />-->
     </logger>
     <logger name="catchweak.web.morpheme.tasklet" level="INFO" additivity="false">
         <appender-ref ref="MORPHEME_BATCH_FILE" />
-        <appender-ref ref="CONSOLE" />
+<!--        <appender-ref ref="CONSOLE" />-->
+    </logger>
+    <logger name="org.springframework.batch.core" level="INFO" additivity="false">
+        <appender-ref ref="MORPHEME_BATCH_FILE" />
+                <appender-ref ref="CONSOLE" />
     </logger>
 
     <!-- Logger for 형태소분석 -->
     <logger name="catchweak.web.morpheme.strategy" level="INFO" additivity="false">
         <appender-ref ref="MORPHEME_ANALYSIS_FILE" />
-        <appender-ref ref="CONSOLE" />
+<!--        <appender-ref ref="CONSOLE" />-->
     </logger>
 
     <!-- Root Logger -->
