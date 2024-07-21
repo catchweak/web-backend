@@ -1,5 +1,6 @@
 package catchweak.web.news.dao
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 
 @Entity
@@ -9,9 +10,14 @@ data class Article(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    val category: Category? = null,
+    @ManyToMany
+    @JoinTable(
+        name = "article_category",
+        joinColumns = [JoinColumn(name = "article_id")],
+        inverseJoinColumns = [JoinColumn(name = "category_id")]
+    )
+    @JsonManagedReference
+    val categories: Set<Category> = emptySet(),
 
     val url: String? = null,
     val originUrl: String? = null,
@@ -25,4 +31,17 @@ data class Article(
 
     @Column(name = "collected_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     val collectedAt: java.sql.Timestamp? = java.sql.Timestamp(System.currentTimeMillis())
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Article
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+}
