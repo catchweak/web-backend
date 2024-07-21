@@ -1,0 +1,14 @@
+### 변수 설정
+@categoryCode=264
+@page=0
+@size=5
+
+### 최신 헤드라인 가져오기
+GET {{host}}/api/articles/headlines
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### 최신 헤드라인 가져오기
+GET {{host}}/api/articles/category?categoryCode={{categoryCode}}&page={{page}}&size={{size}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
