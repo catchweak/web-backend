@@ -28,6 +28,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
+	// batch
+	implementation("org.springframework.boot:spring-boot-starter-batch")
+
     // morpheme analyzer
     // https://mvnrepository.com/artifact/org.openkoreantext/open-korean-text
     implementation("org.openkoreantext:open-korean-text:2.3.1")
