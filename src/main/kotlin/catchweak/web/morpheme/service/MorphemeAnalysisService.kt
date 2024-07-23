@@ -1,9 +1,8 @@
 package catchweak.web.morpheme.service
 
+import catchweak.web.morpheme.dao.Morpheme
 import catchweak.web.morpheme.strategy.*
 import org.springframework.stereotype.Service
-
-data class Morpheme(val text: String, val pos: String)
 
 @Service
 class MorphemeAnalysisService(

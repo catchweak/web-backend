@@ -6,6 +6,9 @@ class ArticleSummarizationStrategy: SummarizationStrategy {
     private val logger = LoggerFactory.getLogger(ArticleSummarizationStrategy::class.java)
 
     override fun summarize(title: String, text: String, keywords: List<String>): String {
+        logger.info("=========================================================================================")
+        logger.info("summarize process start")
+
         val sentences = text.split(Regex("(?<=\\.|\\?|\\!|\\n\\n)")).map { it.trim() }.filter { it.isNotEmpty() }
         val titleKeywords = OpenKoreanTextAnalysisStrategy().analyze(title).map { it.text }
 
@@ -22,19 +25,16 @@ class ArticleSummarizationStrategy: SummarizationStrategy {
             Pair(sentence.trim(), rank)
         }
 
-        logger.info("=========================================================================================")
-        logger.info("sentences")
         sentences.forEachIndexed { index, sentence ->
-            logger.info("index: ${index + 1}: sentence: ${sentence.trim()}")
+            logger.info("[sentences] index: ${index + 1}: sentence: ${sentence.trim()}")
         }
 
-        logger.info("rankedSentences")
         rankedSentences.forEachIndexed { index, (sentence, rank) ->
-            logger.info("index: ${index + 1}, rank: $rank, sentence: $sentence")
+            logger.info("[rankedSentences] index: ${index + 1}, rank: $rank, sentence: $sentence")
         }
 
         val result = rankedSentences.maxByOrNull { it.second }?.first ?: ""
-        logger.info("summary result: $result")
+        logger.info("summarize process end... result: $result")
         logger.info("=========================================================================================")
         return result
     }
