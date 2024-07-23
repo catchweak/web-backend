@@ -1,4 +1,4 @@
-package catchweak.web.morpheme.config
+package catchweak.web.config.morpheme
 
 import catchweak.web.morpheme.service.MorphemeAnalysisService
 import catchweak.web.morpheme.strategy.*

@@ -1,6 +1,6 @@
 package catchweak.web.morpheme.strategy
 
-import catchweak.web.morpheme.service.Morpheme
+import catchweak.web.morpheme.dao.Morpheme
 import org.openkoreantext.processor.OpenKoreanTextProcessor
 import org.openkoreantext.processor.tokenizer.KoreanTokenizer
 import scala.collection.JavaConverters
