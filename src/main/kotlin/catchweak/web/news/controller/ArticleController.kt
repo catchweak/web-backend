@@ -23,11 +23,15 @@ class ArticleController(private val articleService: ArticleService) {
 
     @GetMapping("/headlines")
     fun getHeadlines(): List<Article> {
-        return articleService.getHeadlines()
+        //return articleService.getHeadlines()
+        return mutableListOf()
     }
 
     @GetMapping("/category")
-    fun getArticlesByCategory(@RequestParam categoryCode: String, pageable: Pageable): Page<Article> {
-        return articleService.getArticlesByCategory(categoryCode, pageable)
+    fun getArticlesByCategory(@RequestParam categoryCode: Long, pageable: Pageable): Page<Article> {
+        if(categoryCode > 105 || categoryCode < 100)
+            return articleService.getArticlesByCategory(categoryCode, pageable)
+        else
+            return articleService.getArticlesByParentCategory(categoryCode, pageable)
     }
 }

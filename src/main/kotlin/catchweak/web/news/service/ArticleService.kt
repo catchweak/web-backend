@@ -32,8 +32,12 @@ class ArticleService(private val articleRepository: ArticleRepository) {
     }
 
 
-    fun getArticlesByCategory(categoryCode: String, pageable: Pageable): Page<Article> {
+    fun getArticlesByCategory(categoryCode: Long, pageable: Pageable): Page<Article> {
         return articleRepository.findByCategoryCode(categoryCode, pageable)
+    }
+
+    fun getArticlesByParentCategory(categoryCode: Long, pageable: Pageable): Page<Article> {
+        return articleRepository.findByParentCategoryCode(categoryCode, pageable)
     }
 
     fun getUnProcessedArticles(): List<Article> {
