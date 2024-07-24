@@ -35,7 +35,7 @@ data class Article(
   
       // morpheme analysis processed Y/N
     var processed: Boolean = false
-) {
+) : BaseEntity() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
