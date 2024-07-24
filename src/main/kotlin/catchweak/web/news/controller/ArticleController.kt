@@ -29,9 +29,9 @@ class ArticleController(private val articleService: ArticleService) {
 
     @GetMapping("/category")
     fun getArticlesByCategory(@RequestParam categoryCode: Long, pageable: Pageable): Page<Article> {
-        if(categoryCode > 105 || categoryCode < 100)
-            return articleService.getArticlesByCategory(categoryCode, pageable)
+        return if(categoryCode > 199 || categoryCode < 100)
+            articleService.getArticlesByCategory(categoryCode, pageable)
         else
-            return articleService.getArticlesByParentCategory(categoryCode, pageable)
+            articleService.getArticlesByParentCategory(categoryCode, pageable)
     }
 }
