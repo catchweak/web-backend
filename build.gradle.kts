@@ -1,17 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("org.springframework.boot") version "3.2.1"
-  id("io.spring.dependency-management") version "1.1.4"
-  id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
-  kotlin("jvm") version "1.9.21"
-  kotlin("plugin.spring") version "1.9.21"
+  id("org.springframework.boot") version libs.versions.springBoot.get()
+  id("io.spring.dependency-management") version libs.versions.dependencyManagement.get()
+  alias(libs.plugins.ktlint)
+  alias(libs.plugins.kotlin.jvm)
+  kotlin("plugin.spring") version libs.versions.kotlin.get()
 }
 
 group = "catchweak"
 version = "0.0.1-SNAPSHOT"
-
-val jwtVersion = "0.11.5"
 
 java {
   sourceCompatibility = JavaVersion.VERSION_21
@@ -22,51 +20,47 @@ repositories {
 }
 
 dependencies {
-  // spring
-  implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  implementation("org.jetbrains.kotlin:kotlin-reflect")
-  developmentOnly("org.springframework.boot:spring-boot-devtools")
-  implementation("org.springframework.boot:spring-boot-starter-security")
+  // kotlin
+  implementation(libs.kotlin)
+  implementation(libs.stdlib)
 
-  // batch
-  implementation("org.springframework.boot:spring-boot-starter-batch")
+  // Spring
+  implementation(libs.web)
+  developmentOnly(libs.devtools)
+  implementation(libs.security)
+  implementation(libs.batch)
+  implementation(libs.jackson)
 
-  // morpheme analyzer
-  // https://mvnrepository.com/artifact/org.openkoreantext/open-korean-text
-  implementation("org.openkoreantext:open-korean-text:2.3.1")
-   // logger
-  // SLF4J and Logback dependencies
-  implementation("org.slf4j:slf4j-api:2.0.7")
-  testImplementation("ch.qos.logback:logback-classic:1.4.14")
+  // Morpheme Analyzer
+  implementation(libs.openkoreantext)
 
-  // jpa
-  implementation("org.mariadb.jdbc:mariadb-java-client:2.7.2")
-  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  // Logger
+  implementation(libs.slf4j.api)
+  testImplementation(libs.logback.classic)
 
-   // db
-  runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+  // JPA
+  implementation(libs.jpa)
 
-  // redis
-  implementation("org.springframework.boot:spring-boot-starter-data-redis")
-// 	implementation("org.redisson:redisson-spring-boot-starter:3.17.4")
+  // Database
+  runtimeOnly(libs.mariadb)
 
-  // elasticsearch
-  implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+  // Redis
+  implementation(libs.redis)
+
+  // Elasticsearch
+  implementation(libs.elasticsearch)
 
   // jwt
-  implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
-  runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
-  runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
+  implementation(libs.jjwt.api)
+  runtimeOnly(libs.jjwt.impl)
+  runtimeOnly(libs.jjwt.jackson)
 
-  // test
-  runtimeOnly("com.h2database:h2")
-  testImplementation("org.springframework.security:spring-security-test")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-  // ktlint
-  implementation("org.jetbrains.kotlin:kotlin-stdlib")
+  // Test
+  runtimeOnly(libs.h2)
+  testImplementation(libs.spring.test)
+  testImplementation(libs.security.test)
+  testRuntimeOnly(libs.junit)
+  
 }
 
 tasks.withType<KotlinCompile> {

@@ -14,10 +14,10 @@ spring:
       on-profile: local
 
   datasource:
-    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:catch_weak}
+    url: jdbc:mariadb://${DB_HOST:db-catchweak-news.cf0mike4y36w.ap-northeast-2.rds.amazonaws.com}:${DB_PORT:3306}/${DB_DATABASE:catch_weak}
     driver-class-name: org.mariadb.jdbc.Driver
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:root}
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:catchweak12#}
   jpa:
     open-in-view: false
     generate-ddl: true
@@ -30,7 +30,7 @@ spring:
   spring:
     elasticsearch:
       rest:
-        uris: http://localhost:9200
+        uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
 
 logging:
   level:
@@ -47,7 +47,7 @@ springdoc:
 #    path: /swagger
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: hihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihello
   access-token-expiration: 18000000 # 300 min
 
 client-host: ${CLIENT_HOST:http://localhost:3000}
@@ -75,7 +75,7 @@ spring:
   spring:
     elasticsearch:
       rest:
-        uris: http://localhost:9200
+        uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
 
 logging:
   level:

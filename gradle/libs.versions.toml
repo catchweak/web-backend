@@ -1,0 +1,48 @@
+[versions]
+springBoot = "3.2.1"
+dependencyManagement = "1.1.4"
+ktlint = "12.1.1"
+kotlin = "1.9.21"
+
+jwt = "0.11.5"
+slf4j = "2.0.7"
+logback = "1.4.14"
+mariadb = "3.3.3"
+redis = "3.2.1"
+elasticsearch = "5.2.1"
+openKoreanText = "2.3.1"
+jpa = "3.2.1"
+web = "3.2.1"
+security = "3.2.1"
+securitytest = "6.2.1"
+devtools = "3.2.1"
+batch = "3.2.1"
+jackson = "2.15.3"
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.21" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "12.1.1" }
+
+[libraries]
+web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "web" }
+spring-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "web" }
+batch = { group = "org.springframework.boot", name = "spring-boot-starter-batch", version.ref = "batch" }
+devtools = { group = "org.springframework.boot", name = "spring-boot-devtools", version.ref = "devtools" }
+security = { group = "org.springframework.boot", name = "spring-boot-starter-security", version.ref = "security" }
+security-test = { group = "org.springframework.security", name = "spring-security-test", version.ref = "securitytest"}
+jackson = { group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin", version.ref = "jackson" }
+kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+mariadb = { group = "org.mariadb.jdbc", name = "mariadb-java-client", version.ref = "mariadb" }
+jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "jpa" }
+redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis", version.ref = "redis" }
+elasticsearch = { group = "org.springframework.data", name = "spring-data-elasticsearch", version.ref = "elasticsearch" }
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jwt" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jwt" }
+jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jwt" }
+openkoreantext = { group = "org.openkoreantext", name = "open-korean-text", version.ref = "openKoreanText" }
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+h2 = { group = "com.h2database", name = "h2"}
+junit = { group = "org.junit.platform", name = "junit-platform-launcher"}
+
