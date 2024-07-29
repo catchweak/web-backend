@@ -5,7 +5,6 @@ import catchweak.web.news.repository.ArticleRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -26,7 +25,6 @@ class ArticleService(private val articleRepository: ArticleRepository) {
         // 임시로 최근에 생성된 5개의 기사를 헤드라인으로 반환
         val pageable = PageRequest.of(0, 5)
         val articles: List<Article> = articleRepository.findAllByOrderByArticleCreatedAtDesc(pageable)
-        articles.forEach { article -> article.categories.size }
 
         return articles
     }

@@ -11,7 +11,7 @@ data class Article(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "article_category",
         joinColumns = [JoinColumn(name = "article_id")],
@@ -33,7 +33,7 @@ data class Article(
     @Column(name = "collected_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     val collectedAt: java.sql.Timestamp? = java.sql.Timestamp(System.currentTimeMillis()),
   
-      // morpheme analysis processed Y/N
+    // morpheme analysis processed Y/N
     var processed: Boolean = false
 ) : BaseEntity() {
     override fun equals(other: Any?): Boolean {
