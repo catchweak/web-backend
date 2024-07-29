@@ -3,6 +3,7 @@ package catchweak.web.news.dao
 import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import java.sql.Timestamp
+import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "category")
@@ -27,6 +28,7 @@ data class Category(
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
     @JsonBackReference
+    @Transient
     val articles: Set<Article> = emptySet()
 ) {
     constructor() : this(0, "", null, null, null, Timestamp(System.currentTimeMillis()), null)

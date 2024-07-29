@@ -5,7 +5,6 @@ import catchweak.web.news.service.ArticleService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 @RestController
 @RequestMapping("/api/articles")
@@ -17,14 +16,14 @@ class ArticleController(private val articleService: ArticleService) {
     }
 
     @GetMapping("/{id}")
-    fun getArticleById(@PathVariable id: Long): Optional<Article> {
-        return articleService.getArticleById(id)
+    fun getArticleById(@PathVariable id: Long): Article {
+
+        return articleService.getArticleById(id).get()
     }
 
     @GetMapping("/headlines")
     fun getHeadlines(): List<Article> {
-        //return articleService.getHeadlines()
-        return mutableListOf()
+        return articleService.getHeadlines()
     }
 
     @GetMapping("/category")
