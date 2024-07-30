@@ -7,7 +7,10 @@ import scala.collection.JavaConverters
 
 class OpenKoreanTextAnalysisStrategy : MorphemeAnalysisStrategy {
     override fun analyze(text: String): List<Morpheme> {
-        val normalized = OpenKoreanTextProcessor.normalize(text)
+        // 본문 이미지 데이터 전처리
+        val cleanedText = text.replace(Regex("<catch-weak-img>.*?</catch-weak-img>"), "")
+
+        val normalized = OpenKoreanTextProcessor.normalize(cleanedText)
         val tokens = OpenKoreanTextProcessor.tokenize(normalized)
 
         // Scala 컬렉션을 Java 컬렉션으로 변환
