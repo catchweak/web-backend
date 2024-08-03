@@ -9,18 +9,25 @@ class ArticleSummarizationStrategy: SummarizationStrategy {
         logger.info("=========================================================================================")
         logger.info("summarize process start")
 
-        val sentences = text.split(Regex("(?<=\\.|\\?|\\!|\\n\\n)")).map { it.trim() }.filter { it.isNotEmpty() }
+//        // 이미지 태그 전처리
+        val cleanedText = text.replace(Regex("<catch-weak-img>.*?</catch-weak-img>"), "")
+
+        // 문장 추출
+        val sentences = cleanedText.split(Regex("(?<=\\.|\\?|\\!|\\n\\n)")).map { it.trim() }.filter { it.isNotEmpty() }
+
+        // 가중치 계산을 위한 제목 키워드 추출
         val titleKeywords = OpenKoreanTextAnalysisStrategy().analyze(title).map { it.text }
 
+        // 문장 가중치 인덱싱
         val rankedSentences = sentences.mapIndexed { index, sentence ->
             val keywordCount = keywords.count { keyword -> sentence.contains(keyword) }
             val titleKeywordCount = titleKeywords.count { keyword -> sentence.contains(keyword) }
             val positionWeight = when (index) {
-                0 -> 1.4
+                0 -> 1.45
                 sentences.size - 1 -> 1.2
                 else -> 1.0
             }
-            val lengthWeight = if (sentence.length in 40..100) 1.0 else 0.6
+            val lengthWeight = if (sentence.length in 30..80) 1.0 else 0.8
             val rank = String.format("%.2f", (keywordCount + titleKeywordCount) * positionWeight * lengthWeight).toDouble()
             Pair(sentence.trim(), rank)
         }
@@ -28,7 +35,6 @@ class ArticleSummarizationStrategy: SummarizationStrategy {
         sentences.forEachIndexed { index, sentence ->
             logger.info("[sentences] index: ${index + 1}: sentence: ${sentence.trim()}")
         }
-
         rankedSentences.forEachIndexed { index, (sentence, rank) ->
             logger.info("[rankedSentences] index: ${index + 1}, rank: $rank, sentence: $sentence")
         }
