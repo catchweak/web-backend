@@ -1,14 +1,19 @@
 package catchweak.web.news.controller
 
 import catchweak.web.news.dao.Article
-import catchweak.web.news.service.ArticleService
+import catchweak.web.news.service.*
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/articles")
-class ArticleController(private val articleService: ArticleService) {
+class ArticleController(
+    private val articleService: ArticleService,
+    private val viewService: ArticleViewService
+) {
 
     @GetMapping
     fun getAllArticles(): List<Article> {
@@ -32,5 +37,13 @@ class ArticleController(private val articleService: ArticleService) {
             articleService.getArticlesByCategory(categoryCode, pageable)
         else
             articleService.getArticlesByParentCategory(categoryCode, pageable)
+    }
+
+    @PostMapping("/{id}/views")
+    fun addView(@PathVariable id: Long, request: HttpServletRequest): ResponseEntity<Void> {
+        println("add views id:${id}")
+        val article = articleService.getArticleById(id).get()
+        viewService.addView(article)
+        return ResponseEntity.ok().build()
     }
 }
