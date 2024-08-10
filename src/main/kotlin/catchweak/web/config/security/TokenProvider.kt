@@ -40,6 +40,7 @@ class TokenProvider(
         // TODO : Refresh Token 생성 & 저장
 
         return LoginResponse(
+            userId = authentication.name,
             type = Constants.BEARER_PREFIX,
             accessToken = accessToken,
             refreshToken = null,
