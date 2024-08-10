@@ -28,7 +28,7 @@ class SecurityConfig(
 
         // 권한 제외 대상
         val PERMITTED_LIST = arrayOf(
-            "/", "/login", "/logout", "/swagger-ui/**", "/swagger-ui", "/swagger/**", "/v3/api-docs/**", "/api-docs/**", "/api-docs", "/swagger-ui.html"
+            "/", "/login", "/logout", "/signup","/swagger-ui/**", "/swagger-ui", "/swagger/**", "/v3/api-docs/**", "/api-docs/**", "/api-docs", "/swagger-ui.html"
         )
 
         // api white list

@@ -19,6 +19,9 @@ class Member : BaseEntity() {
     @Column(unique = true, nullable = false)
     var userId: String? = null
 
+    @Column(unique = true, nullable = false)
+    var email: String? = null
+
     @Column(nullable = false)
     var password: String? = null
 
