@@ -1,6 +1,7 @@
 package catchweak.web.news.controller
 
 import catchweak.web.news.dao.Article
+import catchweak.web.news.payload.request.LikeRequest
 import catchweak.web.news.service.*
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.data.domain.Page
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/articles")
 class ArticleController(
     private val articleService: ArticleService,
-    private val viewService: ArticleViewService
+    private val viewService: ArticleViewService,
+    private val likeService: ArticleLikesService
 ) {
 
     @GetMapping
@@ -41,9 +43,20 @@ class ArticleController(
 
     @PostMapping("/{id}/views")
     fun addView(@PathVariable id: Long, request: HttpServletRequest): ResponseEntity<Void> {
-        println("add views id:${id}")
         val article = articleService.getArticleById(id).get()
         viewService.addView(article)
+        return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/{articleId}/like-status")
+    fun getLikeStatus(@PathVariable articleId: Long, @RequestParam userId: Long): ResponseEntity<Boolean> {
+        val likeStatus: Boolean = likeService.getLikeStatus(articleId, userId)?:false
+        return ResponseEntity.ok(likeStatus)
+    }
+
+    @PostMapping("/{articleId}/like")
+    fun likeArticle(@PathVariable articleId: Long, @RequestBody request: LikeRequest): ResponseEntity<Void> {
+        likeService.like(articleId, request.userId)
         return ResponseEntity.ok().build()
     }
 }
