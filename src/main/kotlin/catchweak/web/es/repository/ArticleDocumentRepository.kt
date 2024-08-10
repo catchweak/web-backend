@@ -1,6 +1,6 @@
-package catchweak.web.news.repository
+package catchweak.web.es.repository
 
-import catchweak.web.news.dao.es.ArticleDocument
+import catchweak.web.es.dao.ArticleDocument
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 
 interface ArticleDocumentRepository : ElasticsearchRepository<ArticleDocument, Long> {
