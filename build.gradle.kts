@@ -60,7 +60,7 @@ dependencies {
   testImplementation(libs.spring.test)
   testImplementation(libs.security.test)
   testRuntimeOnly(libs.junit)
-  
+
 }
 
 tasks.withType<KotlinCompile> {
