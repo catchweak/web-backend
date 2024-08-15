@@ -28,13 +28,14 @@ data class Article(
     var summary: String? = null,
     var views: Long = 0,
     var likeCount: Long = 0,
+    var shareCount: Long = 0,
     val author: String? = null,
     val articleCreatedAt: String? = null,
     val articleUpdatedAt: String? = null,
 
     @Column(name = "collected_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     val collectedAt: java.sql.Timestamp? = java.sql.Timestamp(System.currentTimeMillis()),
-  
+
     // morpheme analysis processed Y/N
     var processed: Boolean = false
 ) : BaseEntity() {
