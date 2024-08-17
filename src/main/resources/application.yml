@@ -29,8 +29,7 @@ spring:
         format_sql: true
   spring:
     elasticsearch:
-      rest:
-        uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
+      uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
 
 logging:
   level:
@@ -72,10 +71,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  spring:
-    elasticsearch:
-      rest:
-        uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
+  elasticsearch:
+    uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
 
 logging:
   level:

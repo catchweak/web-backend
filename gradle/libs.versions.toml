@@ -10,6 +10,8 @@ logback = "1.4.14"
 mariadb = "3.3.3"
 redis = "3.2.1"
 elasticsearch = "5.2.1"
+elasticsearchJavaClient = "8.8.0"
+elasticsearchRestClient = "8.14.3" # elasticsearch version과 통일
 openKoreanText = "2.3.1"
 jpa = "3.2.1"
 web = "3.2.1"
@@ -37,6 +39,9 @@ mariadb = { group = "org.mariadb.jdbc", name = "mariadb-java-client", version.re
 jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "jpa" }
 redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis", version.ref = "redis" }
 elasticsearch = { group = "org.springframework.data", name = "spring-data-elasticsearch", version.ref = "elasticsearch" }
+elasticsearchJavaClient = { group = "co.elastic.clients", name = "elasticsearch-java", version.ref = "elasticsearchJavaClient" }
+#elasticsearchRestClient = { group = "org.elasticsearch.client", name = "elasticsearch-rest-client", version.ref = "elasticsearchRestClient" }
+#elasticsearchRestClientApi = { group = "org.elasticsearch.client", name = "elasticsearch-rest-client-api", version.ref = "elasticsearchRestClient" }
 jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jwt" }
 jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jwt" }
 jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jwt" }

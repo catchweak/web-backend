@@ -1,10 +1,13 @@
 package catchweak.web.es.dao
 
 import org.springframework.data.elasticsearch.annotations.Document
+import org.springframework.data.elasticsearch.annotations.Field
+import org.springframework.data.elasticsearch.annotations.FieldType
 
 @Document(indexName = "articles")
 data class ArticleDocument(
     val id: Long,
+    @Field(type = FieldType.Nested, includeInParent = true)
     val categories: List<CategoryDocument>? = null,
     val url: String? = null,
     val originUrl: String? = null,
