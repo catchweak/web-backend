@@ -1,4 +1,4 @@
-package catchweak.web.news.dao.es
+package catchweak.web.es.dao
 
 data class CategoryDocument(
     val id: Long,

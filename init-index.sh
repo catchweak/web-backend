@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # 인덱스 생성
-#!/bin/bash
-
-# 인덱스 생성
 curl -X PUT "http://localhost:9200/articles" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -33,3 +30,43 @@ curl -X PUT "http://localhost:9200/articles" -H 'Content-Type: application/json'
     }
   }
 }'
+
+curl -X PUT "http://localhost:9200/article_keywords" -H 'Content-Type: application/json' -d'
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "comma_analyzer": {
+          "type": "custom",
+          "tokenizer": "comma_tokenizer"
+        }
+      },
+      "tokenizer": {
+        "comma_tokenizer": {
+          "type": "pattern",
+          "pattern": ","
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "article_id": { "type": "long" },
+      "keywords": {
+        "type": "text",
+        "analyzer": "comma_analyzer"
+      }
+    }
+  }
+}'
+
+curl -X PUT "http://localhost:9200/article_summaries" -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "properties": {
+      "article_id": { "type": "long" },
+      "summary": { "type": "text" }
+    }
+  }
+}'
+
