@@ -3,11 +3,15 @@ package catchweak.web.news.controller
 import catchweak.web.es.dao.ArticleDocument
 import catchweak.web.es.service.SearchService
 import catchweak.web.news.dao.Article
+import catchweak.web.news.dao.ArticleComment
+import catchweak.web.news.payload.request.CommentRequest
 import catchweak.web.news.payload.request.LikeRequest
+import catchweak.web.news.payload.request.ShareRequest
+import catchweak.web.news.payload.request.ViewRequest
+import catchweak.web.news.service.*
 import catchweak.web.news.service.ArticleLikesService
 import catchweak.web.news.service.ArticleService
 import catchweak.web.news.service.ArticleViewService
-import jakarta.servlet.http.HttpServletRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
@@ -19,7 +23,9 @@ class ArticleController(
     private val articleService: ArticleService,
     private val viewService: ArticleViewService,
     private val likeService: ArticleLikesService,
-    private val searchService: SearchService
+    private val shareService: ArticleSharesService,
+    private val commentService: ArticleCommentService,
+    private val searchService: SearchService,
 ) {
 
     @GetMapping
@@ -39,37 +45,32 @@ class ArticleController(
     }
 
     @GetMapping("/category")
-    fun getArticlesByCategory(
-        @RequestParam categoryCode: Long,
-        pageable: Pageable
-    ): Page<ArticleDocument> {
+    fun getArticlesByCategory(@RequestParam categoryCode: Long, pageable: Pageable): Page<ArticleDocument> {
         val articles: Page<ArticleDocument> =
             searchService.getArticlesByCategory(categoryCode, pageable)
         return articles
     }
 
-    @PostMapping("/{id}/views")
-    fun addView(@PathVariable id: Long, request: HttpServletRequest): ResponseEntity<Void> {
-        val article = articleService.getArticleById(id).get()
-        viewService.addView(article)
+    @PostMapping("/views")
+    fun addView(request: ViewRequest): ResponseEntity<Void> {
+        viewService.addView(request)
         return ResponseEntity.ok().build()
     }
 
     @GetMapping("/{articleId}/like-status")
-    fun getLikeStatus(
-        @PathVariable articleId: Long,
-        @RequestParam userId: Long
-    ): ResponseEntity<Boolean> {
-        val likeStatus: Boolean = likeService.getLikeStatus(articleId, userId) ?: false
-        return ResponseEntity.ok(likeStatus)
+    fun getLikeStatus(@PathVariable articleId: Long, @RequestParam userId: String): Boolean {
+        return likeService.getLikeStatus(userId, articleId)?:false
     }
 
-    @PostMapping("/{articleId}/like")
-    fun likeArticle(
-        @PathVariable articleId: Long,
-        @RequestBody request: LikeRequest
-    ): ResponseEntity<Void> {
-        likeService.like(articleId, request.userId)
+    @PostMapping("/like")
+    fun likeArticle(@RequestBody request: LikeRequest): ResponseEntity<Void> {
+        likeService.like(request)
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/share")
+    fun shareArticle(@RequestBody request: ShareRequest): ResponseEntity<Void> {
+        shareService.share(request)
         return ResponseEntity.ok().build()
     }
 }
