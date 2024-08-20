@@ -49,6 +49,7 @@ dependencies {
 
   // Elasticsearch
   implementation(libs.elasticsearch)
+//  implementation(libs.elasticsearchJavaClient)
 
   // jwt
   implementation(libs.jjwt.api)
