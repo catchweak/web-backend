@@ -53,6 +53,7 @@ class ArticleController(
 
     @PostMapping("/views")
     fun addView(request: ViewRequest): ResponseEntity<Void> {
+    fun addView(@RequestBody request: ViewRequest): ResponseEntity<Void> {
         viewService.addView(request)
         return ResponseEntity.ok().build()
     }
