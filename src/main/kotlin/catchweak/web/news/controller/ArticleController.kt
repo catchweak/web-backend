@@ -4,6 +4,7 @@ import catchweak.web.es.dao.ArticleDocument
 import catchweak.web.es.service.SearchService
 import catchweak.web.news.dao.Article
 import catchweak.web.news.dao.ArticleComment
+import catchweak.web.news.dao.ArticleCommentReply
 import catchweak.web.news.payload.request.CommentRequest
 import catchweak.web.news.payload.request.LikeRequest
 import catchweak.web.news.payload.request.ShareRequest
@@ -52,7 +53,6 @@ class ArticleController(
     }
 
     @PostMapping("/views")
-    fun addView(request: ViewRequest): ResponseEntity<Void> {
     fun addView(@RequestBody request: ViewRequest): ResponseEntity<Void> {
         viewService.addView(request)
         return ResponseEntity.ok().build()
@@ -72,6 +72,28 @@ class ArticleController(
     @PostMapping("/share")
     fun shareArticle(@RequestBody request: ShareRequest): ResponseEntity<Void> {
         shareService.share(request)
+        return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/{articleId}/comments")
+    fun getComments(@PathVariable articleId: Long, pageable: Pageable): Page<ArticleComment> {
+        return commentService.getComments(articleId, pageable)
+    }
+
+    @GetMapping("/{commentId}/replies")
+    fun getReplies(@PathVariable commentId: Long, pageable: Pageable): Page<ArticleCommentReply> {
+        return commentService.getReplies(commentId, pageable)
+    }
+
+    @PostMapping("/comment")
+    fun addComment(@RequestBody request: CommentRequest): ResponseEntity<Void> {
+        commentService.addComment(request)
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/comment/reply")
+    fun addCommentReply(@RequestBody request: CommentRequest): ResponseEntity<Void> {
+        commentService.addCommentReply(request)
         return ResponseEntity.ok().build()
     }
 }
