@@ -8,4 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ArticleCommentReplyRepository: JpaRepository<ArticleCommentReply, Long> {
     fun findByParentCommentOrderByCreatedAt(parentComment: ArticleComment, pageable: Pageable): Page<ArticleCommentReply>
+
+    fun findByParentCommentAndDeletedFalseOrderByCreatedAt(parentComment: ArticleComment, pageable: Pageable): Page<ArticleCommentReply>
+
+    fun countByParentComment(parentComment: ArticleComment): Int
+
+    fun countByParentCommentAndDeletedFalse(parentComment: ArticleComment): Int
+
+    fun findByParentCommentAndDeletedFalse(parentComment: ArticleComment): List<ArticleCommentReply>
 }

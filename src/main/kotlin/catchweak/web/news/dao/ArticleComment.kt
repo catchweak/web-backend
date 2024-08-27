@@ -19,5 +19,8 @@ data class ArticleComment(
     @JoinColumn(name = "user_id", nullable = false)
     val user: Member? = null,
 
-    var comment: String? = null
+    var comment: String? = null,
+
+    var updated: Boolean = false,
+    var deleted: Boolean = false
 ): BaseEntity()

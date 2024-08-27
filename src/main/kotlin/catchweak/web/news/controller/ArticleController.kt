@@ -5,10 +5,9 @@ import catchweak.web.es.service.SearchService
 import catchweak.web.news.dao.Article
 import catchweak.web.news.dao.ArticleComment
 import catchweak.web.news.dao.ArticleCommentReply
-import catchweak.web.news.payload.request.CommentRequest
-import catchweak.web.news.payload.request.LikeRequest
-import catchweak.web.news.payload.request.ShareRequest
-import catchweak.web.news.payload.request.ViewRequest
+import catchweak.web.news.dto.ArticleCommentListDTO
+import catchweak.web.news.dto.ArticleCommentReplyListDTO
+import catchweak.web.news.payload.request.*
 import catchweak.web.news.service.*
 import catchweak.web.news.service.ArticleLikesService
 import catchweak.web.news.service.ArticleService
@@ -76,24 +75,44 @@ class ArticleController(
     }
 
     @GetMapping("/{articleId}/comments")
-    fun getComments(@PathVariable articleId: Long, pageable: Pageable): Page<ArticleComment> {
+    fun getComments(@PathVariable articleId: Long, pageable: Pageable): ArticleCommentListDTO {
         return commentService.getComments(articleId, pageable)
     }
 
-    @GetMapping("/{commentId}/replies")
-    fun getReplies(@PathVariable commentId: Long, pageable: Pageable): Page<ArticleCommentReply> {
-        return commentService.getReplies(commentId, pageable)
+    @PostMapping("/comment")
+    fun addComment(@RequestBody request: CommentRequest): ArticleComment {
+        return commentService.addComment(request)
     }
 
-    @PostMapping("/comment")
-    fun addComment(@RequestBody request: CommentRequest): ResponseEntity<Void> {
-        commentService.addComment(request)
+    @PutMapping("/comment")
+    fun updateComment(@RequestBody request: CommentRequest): ArticleComment {
+        return commentService.updateComment(request)
+    }
+
+    @PutMapping("/comment/delete")
+    fun deleteComment(@RequestBody request: CommentRequest): ResponseEntity<Void> {
+        commentService.deleteComment(request)
         return ResponseEntity.ok().build()
     }
 
+    @GetMapping("/{commentId}/replies")
+    fun getReplies(@PathVariable commentId: Long, pageable: Pageable): ArticleCommentReplyListDTO {
+        return commentService.getReplies(commentId, pageable)
+    }
+
     @PostMapping("/comment/reply")
-    fun addCommentReply(@RequestBody request: CommentRequest): ResponseEntity<Void> {
-        commentService.addCommentReply(request)
+    fun addCommentReply(@RequestBody request: ReplyRequest): ArticleCommentReply {
+        return commentService.addCommentReply(request)
+    }
+
+    @PutMapping("/comment/reply")
+    fun updateCommentReply(@RequestBody request: ReplyRequest):ArticleCommentReply {
+        return commentService.updateCommentReply(request)
+    }
+
+    @PutMapping("/comment/reply/delete")
+    fun deleteCommentReply(@RequestBody request: ReplyRequest): ResponseEntity<Void> {
+        commentService.deleteCommentReply(request)
         return ResponseEntity.ok().build()
     }
 }

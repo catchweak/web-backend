@@ -8,4 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ArticleCommentRepository: JpaRepository<ArticleComment, Long> {
     fun findByArticleOrderByCreatedAtDesc(article: Article, pageable: Pageable): Page<ArticleComment>
+
+    fun findByArticleAndDeletedFalseOrderByCreatedAtDesc(article: Article, pageable: Pageable): Page<ArticleComment>
+
+    fun countByArticle(article: Article): Int
+
+    fun countByArticleAndDeletedFalse(article: Article): Int
 }
