@@ -2,9 +2,9 @@ package catchweak.web.news.payload.request
 
 import catchweak.web.common.payload.request.ApiRequest
 
-data class LikeRequest(
-    val articleId: Long,
-    val userId: String
+data class ShareRequest(
+    val userId: String,
+    val articleId: Long
 ): ApiRequest(){
     override fun specificValidate() {
         if(userId.isBlank()){
@@ -15,4 +15,3 @@ data class LikeRequest(
         }
     }
 }
-

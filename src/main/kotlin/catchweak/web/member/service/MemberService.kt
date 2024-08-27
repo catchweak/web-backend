@@ -30,4 +30,8 @@ class MemberService(
 
         return memberRepository.save(member)
     }
+
+    fun findByUserId(userId: String): Member {
+        return memberRepository.findByUserId(userId).get()
+    }
 }
