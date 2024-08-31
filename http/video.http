@@ -1,0 +1,7 @@
+### 변수 설정
+@keyword=라면
+
+### 비디오 겁색
+GET {{host}}/videos/serarch{{keyword}}
+Authorization: Bearer {{accessToken}}
+

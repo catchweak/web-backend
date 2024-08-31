@@ -26,6 +26,7 @@ dependencies {
 
   // Spring
   implementation(libs.web)
+  implementation(libs.webflux)
   developmentOnly(libs.devtools)
   implementation(libs.security)
   implementation(libs.batch)
@@ -50,6 +51,9 @@ dependencies {
   // Elasticsearch
   implementation(libs.elasticsearch)
 //  implementation(libs.elasticsearchJavaClient)
+
+  // mongodb
+  implementation(libs.mongodb)
 
   // jwt
   implementation(libs.jjwt.api)
