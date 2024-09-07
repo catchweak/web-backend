@@ -34,7 +34,7 @@ class ArticleViewService(
     @Transactional
     fun addArticleView(request: ViewRequest){
         val article = loadArticle(request.articleId)
-        article.views++
+        article.viewCount++
         articleRepository.save(article)
     }
 

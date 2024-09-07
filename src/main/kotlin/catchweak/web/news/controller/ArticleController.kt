@@ -44,6 +44,11 @@ class ArticleController(
         return articleService.getHeadlines()
     }
 
+    @GetMapping("/popular")
+    fun getPopularArticles(): List<Article> {
+        return articleService.getPopularArticles()
+    }
+
     @GetMapping("/category")
     fun getArticlesByCategory(@RequestParam categoryCode: Long, pageable: Pageable): Page<ArticleDocument> {
         val articles: Page<ArticleDocument> =
@@ -54,7 +59,7 @@ class ArticleController(
     @PostMapping("/views")
     fun addView(@RequestBody request: ViewRequest): ResponseEntity<Void> {
         // 회원인 경우에만 조회 테이블 데이터 추가 적재
-        if(!request.userId.isBlank()){
+        if(request.userId.isNotBlank()){
             viewService.addUserView(request)
         }
         viewService.addArticleView(request)

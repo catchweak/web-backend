@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface ArticleCommentRepository: JpaRepository<ArticleComment, Long> {
+    fun findAllByArticle(article: Article): List<ArticleComment>
+
     fun findByArticleOrderByCreatedAtDesc(article: Article, pageable: Pageable): Page<ArticleComment>
 
     fun findByArticleAndDeletedFalseOrderByCreatedAtDesc(article: Article, pageable: Pageable): Page<ArticleComment>
