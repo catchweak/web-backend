@@ -26,7 +26,7 @@ data class Article(
     val body: String? = null,
     val imgUrl: String? = null,
     var summary: String? = null,
-    var views: Long = 0,
+    var viewCount: Long = 0,
     var likeCount: Long = 0,
     var shareCount: Long = 0,
     val author: String? = null,

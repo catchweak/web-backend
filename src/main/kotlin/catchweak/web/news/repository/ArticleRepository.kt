@@ -1,6 +1,7 @@
 package catchweak.web.news.repository
 
 import catchweak.web.news.dao.Article
+import java.time.LocalDateTime
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -23,4 +24,6 @@ interface ArticleRepository : JpaRepository<Article, Long> {
 
     @Query("SELECT a FROM Article a WHERE a.processed = false OR a.processed = null ORDER BY a.id LIMIT 300")
     fun findUnprocessedArticles(): List<Article>
+
+    fun findAllByCollectedAtAfterAndViewCountGreaterThan(baseDate: LocalDateTime, viewCount: Long): List<Article>
 }
