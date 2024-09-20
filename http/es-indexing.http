@@ -1,0 +1,7 @@
+### article indexing
+GET {{host}}/index-articles
+Authorization: Bearer {{accessToken}}
+
+### keywords-summaries indexing
+GET {{host}}/index-keywords-summaries
+Authorization: Bearer {{accessToken}}
