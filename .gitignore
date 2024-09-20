@@ -1,5 +1,6 @@
 ### configuration ###
 /src/main/resources/.env
+/src/main/resources/application.yml
 
 ### COMMON ###
 HELP.md
