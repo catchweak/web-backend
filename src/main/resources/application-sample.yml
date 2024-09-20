@@ -12,7 +12,9 @@ spring:
   config:
     activate:
       on-profile: local
-
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGODB_HOST:localhost}:${MONGODB_PORT:}/${MONGODB_DATABASE:test}
   datasource:
     url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:test}
     driver-class-name: org.mariadb.jdbc.Driver

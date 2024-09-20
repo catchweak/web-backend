@@ -19,6 +19,9 @@ indent_size = 2
 max_line_length = off
 trim_trailing_whitespace = false
 
+[*.{yml,yaml}]
+indent_size = 2
+
 [*.{kt,kts}]
 ij_kotlin_imports_layout = *,^
 ij_kotlin_wrap_comments = true
