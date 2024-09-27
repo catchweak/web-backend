@@ -15,10 +15,16 @@ class MorphemeAnalysisService(
     }
 
     fun extractKeywords(morphemes: List<Morpheme>): List<String> {
+        // 형태소 분석 결과에서 명사(Noun)만 추출하고, 유효성 검사를 통과한 명사만 반환
         return keywordExtractionStrategy.extract(morphemes)
+            .filter { isValidNounLength(it) }
     }
 
     fun summarizeText(title: String, text: String, keywords: List<String>): String {
         return summarizationStrategy.summarize(title, text, keywords)
+    }
+
+    private fun isValidNounLength(noun: String): Boolean {
+        return noun.length > 1  // 최소 2글자 이상의 명사만 유효
     }
 }
