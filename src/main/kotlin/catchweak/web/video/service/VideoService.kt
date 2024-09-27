@@ -1,60 +1,82 @@
 package catchweak.web.video.service
 
-import com.mongodb.client.gridfs.model.GridFSFile
 import java.io.InputStream
-import java.nio.ByteBuffer
-import org.springframework.core.io.buffer.DataBuffer
-import org.springframework.core.io.buffer.DefaultDataBufferFactory
+import org.springframework.core.io.InputStreamResource
+import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.gridfs.GridFsTemplate
+import org.springframework.http.*
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
-import reactor.core.scheduler.Schedulers
+import org.springframework.web.server.ResponseStatusException
 
 @Service
-class VideoService(private val gridFsTemplate: GridFsTemplate) {
+class VideoService(
+    private val mongoTemplate: MongoTemplate,
+    private val gridFsTemplate: GridFsTemplate,
+) {
+    fun getVideoByTitle(
+        title: String,
+        rangeHeader: String?,
+    ): ResponseEntity<InputStreamResource>? {
+        val query = Query.query(Criteria.where("metadata.title").regex(".*$title.*", "i"))
+        val videoMetadata = gridFsTemplate.findOne(query)
 
-    fun findVideoByTitleLike(title: String): Mono<GridFSFile> {
-        val query = Query.query(
-            Criteria.where("metadata.title")
-                .regex(".*$title.*", "i")
-        )
-        return Mono.fromCallable { gridFsTemplate.findOne(query) }
-            .subscribeOn(Schedulers.boundedElastic())
-    }
+        videoMetadata.let {
+            val gridFSFile = gridFsTemplate.getResource(videoMetadata)
+            val videoLength = gridFSFile.contentLength()
+            val inputStream: InputStream = gridFSFile.inputStream
 
-    fun findVideoByVideoId(videoId: String): Mono<GridFSFile> {
-        val query = Query.query(
-            Criteria.where("video_id")
-                .regex(".*$videoId.*", "i")
-        )
-        return Mono.fromCallable { gridFsTemplate.findOne(query) }
-            .subscribeOn(Schedulers.boundedElastic())
-    }
+            val headers = HttpHeaders()
 
-    fun findVideoByTagsLike(tag: String): Mono<GridFSFile> {
-        val query = Query.query(
-            Criteria.where("metadata.tags")
-                .regex(".*$tag.*", "i")
-        )
-        return Mono.fromCallable { gridFsTemplate.findOne(query) }
-            .subscribeOn(Schedulers.boundedElastic())
-    }
+            if (rangeHeader != null && rangeHeader.startsWith("bytes")) {
+                try {
+                    val ranges = rangeHeader.replace("bytes=", "").split("-")
+                    val start = ranges[0].toLong()
+                    val end =
+                        if (ranges.size > 1 &&
+                            ranges[1].isNotEmpty()
+                        ) {
+                            ranges[1].toLong()
+                        } else {
+                            videoLength - 1
+                        }
+                    val contentLength = end - start + 1
+                    inputStream.skip(start)
 
-    fun streamVideo(gridFSFile: GridFSFile): Flux<DataBuffer> {
-        val inputStream: InputStream = gridFsTemplate.getResource(gridFSFile).inputStream
-        val bufferFactory = DefaultDataBufferFactory()
-        return Flux.generate { sink ->
-            val buffer = ByteArray(4096)
-            val bytesRead = inputStream.read(buffer)
-            if (bytesRead != -1) {
-                val byteBuffer = ByteBuffer.wrap(buffer, 0, bytesRead)
-                sink.next(bufferFactory.wrap(byteBuffer))
+                    headers.add("Content-Range", "bytes $start-$end/$videoLength")
+                    headers.contentLength = contentLength
+                    headers.contentType =
+                        MediaTypeFactory
+                            .getMediaType(
+                                gridFSFile.filename,
+                            ).orElse(MediaType.APPLICATION_OCTET_STREAM)
+
+                    return ResponseEntity
+                        .status(HttpStatus.PARTIAL_CONTENT)
+                        .headers(headers)
+                        .body(InputStreamResource(inputStream))
+                } catch (e: Exception) {
+                    throw ResponseStatusException(
+                        HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE,
+                        "Invalid range request",
+                    )
+                }
             } else {
-                sink.complete()
+                headers.contentLength = videoLength
+                headers.contentType =
+                    MediaTypeFactory
+                        .getMediaType(
+                            gridFSFile.filename,
+                        ).orElse(MediaType.APPLICATION_OCTET_STREAM)
+                return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .body(InputStreamResource(inputStream))
             }
         }
+
+        return null
     }
 }
