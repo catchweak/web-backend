@@ -7,6 +7,7 @@ import catchweak.web.news.dao.ArticleComment
 import catchweak.web.news.dao.ArticleCommentReply
 import catchweak.web.news.dto.ArticleCommentListDTO
 import catchweak.web.news.dto.ArticleCommentReplyListDTO
+import catchweak.web.news.dto.PopularArticleDTO
 import catchweak.web.news.payload.request.*
 import catchweak.web.news.service.*
 import catchweak.web.news.service.ArticleLikesService
@@ -45,7 +46,7 @@ class ArticleController(
     }
 
     @GetMapping("/popular")
-    fun getPopularArticles(): List<Article> {
+    fun getPopularArticles(): List<PopularArticleDTO> {
         return articleService.getPopularArticles()
     }
 
