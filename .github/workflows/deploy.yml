@@ -61,7 +61,18 @@ jobs:
       # EC2 호스트 키 등록
       - name: Add EC2 to known hosts
         run: ssh-keyscan -H ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
-
+      
+      # Docker Compose로 필요한 서비스 실행
+      - name: Run Docker Compose
+        run: |
+          docker-compose up -d
+        
+      # init-index.sh 스크립트 실행
+      - name: Run init-index.sh script
+        run: |
+          chmod +x ./init-index.sh
+          ./init-index.sh
+        
       # Build Application
       - name: Build the application
         run: ./gradlew build
