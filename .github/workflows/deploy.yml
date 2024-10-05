@@ -38,7 +38,7 @@ jobs:
       #  Github action IP 보안그룹에 추가
       - name: Add Github Actions IP to Security group
         run: |
-          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
           
       # EC2 호스트 키 등록
       - name: Add EC2 to known hosts
@@ -75,4 +75,4 @@ jobs:
       # Github action IP 보안그룹에서 제거 (배포 후)
       - name: Remove Github Actions IP from Security group
         run: |
-          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
