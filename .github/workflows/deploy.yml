@@ -30,6 +30,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: develop
+
+      # 애플리케이션 빌드
+      - name: Build the application
+        run: ./gradlew build
       
       # SSH Agent 설정 및 GitHub Secrets에 저장된 SSH 키 로드
       - name: Set up SSH agent
@@ -53,7 +57,7 @@ jobs:
           
           scp docker-compose.yml ubuntu@ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/catchweak
           
-          scp -r build/libs ubuntu@ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/catchweak
+          scp -r build ubuntu@ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/catchweak
       
       # 환경 세팅 docker-compose.yml 및 init-index.sh 실행
       - name: Run Envirenments scripts
