@@ -28,6 +28,8 @@ jobs:
       # 배포 브랜치 지정 (with: ref: 옵션이 없을 경우 트리거가 되는 브랜치)
       - name: Checkout branch
         uses: actions/checkout@v2
+        with:
+          ref: develop
       
       # SSH Agent 설정 및 GitHub Secrets에 저장된 SSH 키 로드
       - name: Set up SSH agent
