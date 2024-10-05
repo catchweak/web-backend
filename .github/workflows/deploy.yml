@@ -31,7 +31,7 @@ jobs:
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          ssh-private-key: ${{ secrets.AWS_EC2_SSH_KEY }}
 
       #  Github action IP 보안그룹에 추가
       - name: Add Github Actions IP to Security group
@@ -73,4 +73,4 @@ jobs:
       # Github action IP 보안그룹에서 제거 (배포 후)
       - name: Remove Github Actions IP from Security group
         run: |
-          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
