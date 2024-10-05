@@ -18,7 +18,7 @@ jobs:
       AWS_EC2_SSH_KEY: ${{ secrets.AWS_EC2_SSH_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      APPLICATION_YML: ${{ secrets.APPICATION }}
+      APPLICATION_YML: ${{ secrets.APPLICATION_YML }}
 
     steps:
       # Java 21 설치
