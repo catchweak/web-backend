@@ -73,12 +73,11 @@ jobs:
       - name: Run Docker Compose
         run: |
           docker-compose up -d
-        
-      # init-index.sh 스크립트 실행
-      - name: Run init-index.sh script
+
+      # Wait for Elasticsearch and run init-index.sh
+      - name: Wait for Elasticsearch and run init script
         run: |
-          chmod +x ./init-index.sh
-          ./init-index.sh
+          docker-compose up init-script
         
       # Build Application
       - name: Build the application
