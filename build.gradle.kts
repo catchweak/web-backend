@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   id("org.springframework.boot") version libs.versions.springBoot.get()
   id("io.spring.dependency-management") version libs.versions.dependencyManagement.get()
-  alias(libs.plugins.ktlint)
+//  alias(libs.plugins.ktlint)
   alias(libs.plugins.kotlin.jvm)
   kotlin("plugin.spring") version libs.versions.kotlin.get()
 }
