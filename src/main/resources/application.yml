@@ -1,0 +1,93 @@
+spring:
+  application:
+    name: catch-weak
+  profiles:
+    default: local
+
+server:
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:test}
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+#        format_sql: true
+  spring:
+    elasticsearch:
+      uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
+
+  redis:
+    data:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+
+logging:
+  level:
+    root: info
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    use-root-path: true
+    disable-swagger-default-url: true # petstore html ????
+    tags-sorter: alpha
+    operations-sorter: alpha
+#    path: /swagger
+
+jwt:
+  secret: hihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihellohihello
+  access-token-expiration: 18000000 # 300 min
+
+client-host: ${CLIENT_HOST:http://localhost:3000}
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE;mode=mysql
+      username: sa
+      password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+#        format_sql: true
+  elasticsearch:
+    uris: http://${ELASTICSEARCH_HOST:localhost}:${ELASTICSEARCH_PORT:9200}
+
+  redis:
+    data:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+
+logging:
+  level:
+    root: info
