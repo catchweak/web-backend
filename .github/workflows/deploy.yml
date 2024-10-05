@@ -20,6 +20,13 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
+      # Java 21 설치
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          
       # Github action IP 가져오기
       - name: Get Github action IP
         id: ip
@@ -31,7 +38,7 @@ jobs:
         with:
           ref: develop
 
-      # 애플리케이션 빌드
+      # Build Application
       - name: Build the application
         run: ./gradlew build
       
