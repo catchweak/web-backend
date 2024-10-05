@@ -57,7 +57,7 @@ jobs:
           
           scp docker-compose.yml ubuntu@ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/catchweak
           
-          scp -r build ubuntu@ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/catchweak
+          scp -r build/libs ubuntu@ec2-13-209-47-84.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/catchweak
       
       # 환경 세팅 docker-compose.yml 및 init-index.sh 실행
       - name: Run Envirenments scripts
