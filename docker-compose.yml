@@ -12,6 +12,10 @@ services:
         ports:
             - "9200:9200"
             - "9300:9300"
+        healthcheck:
+          test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+          interval: 10s
+          retries: 5
         volumes:
             - es-data:/usr/share/elasticsearch/data
 
@@ -30,6 +34,15 @@ services:
         image: redis:6.2
         ports:
             - "6379:6379"
+
+    init-script:
+      image: busybox
+      depends_on:
+        elasticsearch:
+          condition: service_healthy
+      entrypoint: [ "/bin/sh", "-c", "./init-index.sh" ]
+      volumes:
+        - ./init-index.sh:/init-index.sh
 
 volumes:
     es-data:
