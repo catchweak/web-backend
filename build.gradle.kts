@@ -79,15 +79,15 @@ tasks.withType<Test> {
   useJUnitPlatform()
 }
 
-configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-  filter {
-    exclude {
-      it.file.path.startsWith(project.layout.buildDirectory.get().dir("generated").toString())
-    }
-    exclude("**/*.xml")
-  }
-}
-
-ktlint {
-  outputToConsole.set(true)
-}
+//configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+//  filter {
+//    exclude {
+//      it.file.path.startsWith(project.layout.buildDirectory.get().dir("generated").toString())
+//    }
+//    exclude("**/*.xml")
+//  }
+//}
+//
+//ktlint {
+//  outputToConsole.set(true)
+//}
