@@ -18,6 +18,7 @@ jobs:
       AWS_EC2_SSH_KEY: ${{ secrets.AWS_EC2_SSH_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      APPLICATION_YML: ${{ secrets.APPICATION }}
 
     steps:
       # Java 21 설치
@@ -37,6 +38,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: develop
+
+      # secrets 내용을 읽어 yml 파일을 특정 위치에 생성
+      - name: make application.yml
+        run: |
+          mkdir -p ./src/main/resources
+          cd ./src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.APPLICATION }}" > ./application.yml
 
       # Build Application
       - name: Build the application
