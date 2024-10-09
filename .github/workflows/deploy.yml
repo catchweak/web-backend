@@ -104,6 +104,13 @@ jobs:
             ./init-index.sh  # 인덱스 초기화 스크립트 실행
             docker-compose up -d
           EOF
+
+      # 기존 서버 종료
+      - name: Stop running server
+        run: |
+          ssh ${{ env.AWS_EC2_USERNAME }}@${{ env.AWS_EC2_DNS }} << EOF
+            pkill -f 'java -jar catchweak.jar' || echo "No running server found"
+          EOF
       
       # 서버 실행
       - name: Run Backend server
