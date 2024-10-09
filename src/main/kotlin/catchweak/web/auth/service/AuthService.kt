@@ -15,7 +15,7 @@ class AuthService(
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val member = authRepository.findByUserIdAndStatus(username, MemberStatus.NORMAL)
+            val member = authRepository.findByUserIdAndStatus(username, MemberStatus.NORMAL)
             .orElseThrow { UsernameNotFoundException("유효하지 않은 회원입니다.") }
 
         val role = member.role

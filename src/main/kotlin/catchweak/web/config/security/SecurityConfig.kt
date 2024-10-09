@@ -53,8 +53,8 @@ class SecurityConfig(
                         .requestMatchers(*PERMITTED_LIST).permitAll()
                         .requestMatchers(*API_WHITE_LIST).permitAll()
 //                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().authenticated()
-                    // .anyRequest().permitAll() // 로그인 하지 않고 모두 권한을 가짐
+//                        .anyRequest().authenticated()
+                     .anyRequest().permitAll() // 로그인 하지 않고 모두 권한을 가짐
                 } catch (e: Exception) {
 //                    log.error(e.toString())
                 }

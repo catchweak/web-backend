@@ -39,7 +39,7 @@ class AuthFilter(private val tokenProvider: TokenProvider) : OncePerRequestFilte
 
     // Request Header 에서 토큰 정보를 꺼내오기
     private fun resolveToken(request: HttpServletRequest): String? {
-        val bearerToken: String = request.getHeader("Authorization")
+        val bearerToken: String = request.getHeader("Authorization").orEmpty()
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(Constants.BEARER_PREFIX)) {
             return bearerToken.substring(Constants.BEARER_PREFIX.length)
         }
