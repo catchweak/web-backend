@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.*
 class VideoController(
     private val videoService: VideoService,
 ) {
-    @GetMapping("/search/{title}")
+    @GetMapping("/search")
     fun searchVideoByTitle(
-        @PathVariable title: String,
         @RequestHeader(value = "Range", required = false) rangeHeader: String?,
-    ): ResponseEntity<InputStreamResource>? = videoService.getVideoByTitle(title, rangeHeader)
+        @RequestParam(required = false, defaultValue = "1") rank: Int,
+        @RequestParam(required = false, defaultValue = "*") title: String,
+    ): ResponseEntity<InputStreamResource>? = videoService.getVideoByTitle(title, rangeHeader, rank)
 }
