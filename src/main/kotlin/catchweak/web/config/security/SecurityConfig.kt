@@ -65,6 +65,10 @@ class SecurityConfig(
     }
 
     private fun getLoginAuthenticationFilter(): CustomUsernamePasswordAuthenticationFilter {
-        return CustomUsernamePasswordAuthenticationFilter(memberService, customAuthenticationManager, tokenProvider, objectMapper)
+        val loginFilter = CustomUsernamePasswordAuthenticationFilter(memberService, customAuthenticationManager, tokenProvider, objectMapper)
+        // nginx 라우팅 방식 규격에 따라 request mapping을 /api/login으로 변경
+        loginFilter.setFilterProcessesUrl("/api/login")
+
+        return loginFilter
     }
 }
