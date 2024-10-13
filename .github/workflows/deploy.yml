@@ -113,7 +113,7 @@ jobs:
           ssh ${{ env.AWS_EC2_USERNAME }}@${{ env.AWS_EC2_DNS }} << EOF
             cd /home/ubuntu/catchweak
             ./gradlew build
-            nohup java -jar /home/ubuntu/catchweak/build/libs/${{ env.APPLICATION_JAR_NAME }}.jar &
+            nohup java -jar /home/ubuntu/catchweak/libs/${{ env.APPLICATION_JAR_NAME }}.jar &
           EOF
 
       # Github action IP 보안그룹에서 제거 (배포 후)
