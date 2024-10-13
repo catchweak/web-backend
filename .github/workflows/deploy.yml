@@ -72,12 +72,11 @@ jobs:
       - name: Run Docker Compose
         run: |
           docker-compose up -d
-        
-      # init-index.sh 스크립트 실행
-      - name: Run init-index.sh script
+
+      # Wait for Elasticsearch and run init-index.sh
+      - name: Wait for Elasticsearch and run init script
         run: |
-          chmod +x ./init-index.sh
-          ./init-index.sh
+          docker-compose up init-script
         
       # Build Application
       - name: Build the application
@@ -98,7 +97,6 @@ jobs:
           ssh ${{ env.AWS_EC2_USERNAME }}@${{ env.AWS_EC2_DNS }} << EOF
             cd /home/ubuntu/catchweak
             chmod +x init-index.sh
-            ./init-index.sh  # 인덱스 초기화 스크립트 실행
             docker-compose up -d
           EOF
 
