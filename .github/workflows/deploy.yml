@@ -3,9 +3,7 @@ name: Deploy Backend to EC2
 on:
   push:
     branches:
-      - develop
       - main
-  workflow_dispatch:  # 수동 트리거 추가
 
 jobs:
   deploy-backend:
@@ -22,6 +20,7 @@ jobs:
       APPLICATION_YML: ${{ secrets.APPLICATION_YML }}
       AWS_EC2_DNS: ${{ secrets.AWS_EC2_DNS }}
       AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME }}
+      APPLICATION_JAR_NAME: ${{ secrets.catchweak-0.0.1-SNAPSHOT }}
 
     steps:
       # Java 21 설치
@@ -39,8 +38,6 @@ jobs:
       # 배포 브랜치 지정 (with: ref: 옵션이 없을 경우 트리거가 되는 브랜치)
       - name: Checkout branch
         uses: actions/checkout@v2
-        with:
-          ref: develop
 
       # secrets 내용을 읽어 yml 파일을 특정 위치에 생성
       - name: Create application.yml
@@ -109,7 +106,7 @@ jobs:
       - name: Stop running server
         run: |
           ssh ${{ env.AWS_EC2_USERNAME }}@${{ env.AWS_EC2_DNS }} << EOF
-            pkill -f 'java -jar catchweak.jar' || echo "No running server found"
+            pkill -f 'java -jar ${{ env.APPLICATION_JAR_NAME }}.jar' || echo "No running server found"
           EOF
       
       # 서버 실행
@@ -118,7 +115,7 @@ jobs:
           ssh ${{ env.AWS_EC2_USERNAME }}@${{ env.AWS_EC2_DNS }} << EOF
             cd /home/ubuntu/catchweak
             ./gradlew build
-            nohup java -jar /home/ubuntu/catchweak/build/libs/catchweak-0.0.1-SNAPSHOT.jar &
+            nohup java -jar /home/ubuntu/catchweak/build/libs/${{ env.APPLICATION_JAR_NAME }}.jar &
           EOF
 
       # Github action IP 보안그룹에서 제거 (배포 후)
