@@ -3,13 +3,14 @@ package catchweak.web.es.controller
 import catchweak.web.es.dao.ArticleDocument
 import catchweak.web.es.service.IndexService
 import catchweak.web.es.service.SearchService
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/api")
 class ArticleESController(
     private val indexService: IndexService,
     private val searchService: SearchService,

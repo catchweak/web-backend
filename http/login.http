@@ -1,5 +1,5 @@
 ### 로그인
-POST {{host}}/login
+POST {{host}}/api/login
 Content-Type: application/json
 
 {

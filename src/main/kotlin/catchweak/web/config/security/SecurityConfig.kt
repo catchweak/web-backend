@@ -53,8 +53,8 @@ class SecurityConfig(
                         .requestMatchers(*PERMITTED_LIST).permitAll()
                         .requestMatchers(*API_WHITE_LIST).permitAll()
 //                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().authenticated()
-                    // .anyRequest().permitAll() // 로그인 하지 않고 모두 권한을 가짐
+//                        .anyRequest().authenticated()
+                     .anyRequest().permitAll() // 로그인 하지 않고 모두 권한을 가짐
                 } catch (e: Exception) {
 //                    log.error(e.toString())
                 }
@@ -65,6 +65,10 @@ class SecurityConfig(
     }
 
     private fun getLoginAuthenticationFilter(): CustomUsernamePasswordAuthenticationFilter {
-        return CustomUsernamePasswordAuthenticationFilter(memberService, customAuthenticationManager, tokenProvider, objectMapper)
+        val loginFilter = CustomUsernamePasswordAuthenticationFilter(memberService, customAuthenticationManager, tokenProvider, objectMapper)
+        // nginx 라우팅 방식 규격에 따라 request mapping을 /api/login으로 변경
+        loginFilter.setFilterProcessesUrl("/api/login")
+
+        return loginFilter
     }
 }

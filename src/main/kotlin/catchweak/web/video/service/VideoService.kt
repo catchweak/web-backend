@@ -2,6 +2,7 @@ package catchweak.web.video.service
 
 import java.io.InputStream
 import org.springframework.core.io.InputStreamResource
+import org.springframework.data.domain.Sort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
@@ -19,8 +20,19 @@ class VideoService(
     fun getVideoByTitle(
         title: String,
         rangeHeader: String?,
+        rank: Int,
     ): ResponseEntity<InputStreamResource>? {
-        val query = Query.query(Criteria.where("metadata.title").regex(".*$title.*", "i"))
+
+        val query: Query = if("*" == title) {
+            Query()
+                .with(Sort.by(Sort.Direction.DESC, "metadata.view_count"))
+                .with(Sort.by(Sort.Direction.DESC, "metadata.comment_count"))
+                .skip((rank - 1).toLong())
+                .limit(1)
+        } else {
+            Query.query(Criteria.where("metadata.title").regex(".*$title.*", "i"))
+        }
+
         val videoMetadata = gridFsTemplate.findOne(query)
 
         videoMetadata.let {
