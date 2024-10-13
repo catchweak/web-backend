@@ -20,7 +20,7 @@ jobs:
       APPLICATION_YML: ${{ secrets.APPLICATION_YML }}
       AWS_EC2_DNS: ${{ secrets.AWS_EC2_DNS }}
       AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME }}
-      APPLICATION_JAR_NAME: ${{ secrets.catchweak-0.0.1-SNAPSHOT }}
+      APPLICATION_JAR_NAME: ${{ secrets.APPLICATION_JAR_NAME }}
 
     steps:
       # Java 21 설치
