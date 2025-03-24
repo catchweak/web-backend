@@ -27,10 +27,14 @@ dependencies {
   // Spring
   implementation(libs.web)
   implementation(libs.webflux)
+
   developmentOnly(libs.devtools)
   implementation(libs.security)
   implementation(libs.batch)
   implementation(libs.jackson)
+
+  // kafka
+  implementation(libs.kafka)
 
   // Morpheme Analyzer
   implementation(libs.openkoreantext)
@@ -64,8 +68,8 @@ dependencies {
   runtimeOnly(libs.h2)
   testImplementation(libs.spring.test)
   testImplementation(libs.security.test)
+  testImplementation(libs.kafka.test)
   testRuntimeOnly(libs.junit)
-
 }
 
 tasks.withType<KotlinCompile> {
