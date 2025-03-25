@@ -19,7 +19,7 @@ class RedisNewsScoreService(
         "shared" to 1.5,
         "viewed" to 1.5,
         "unliked" to -3.5,
-        "removeCommented" to -3.5,
+        "deleteCommented" to -3.5,
     )
 
     fun updateArticleScore(articleId: Long, eventType: String) {

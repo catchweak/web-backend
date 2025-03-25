@@ -2,9 +2,12 @@ package catchweak.web.news.service
 
 import catchweak.web.member.repository.MemberRepository
 import catchweak.web.news.dao.ArticleLikes
+import catchweak.web.news.event.ArticleLikedEvent
+import catchweak.web.news.event.status.LikedEventStatus
 import catchweak.web.news.payload.request.LikeRequest
 import catchweak.web.news.repository.ArticleLikesRepository
 import catchweak.web.news.repository.ArticleRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,38 +15,48 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleLikesService(
     private val likeRepository: ArticleLikesRepository,
     private val articleRepository: ArticleRepository,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val eventPublisher: ApplicationEventPublisher,
 ) {
 
-    fun getLikeStatus(userId: String, articleId: Long): Boolean?{
+    fun getLikeStatus(userId: String, articleId: Long): Boolean? {
         val user = memberRepository.findByUserId(userId).orElseThrow { Exception("User not found") }
-        val article = articleRepository.findById(articleId).orElseThrow { Exception("Article not found") }
+        val article =
+            articleRepository.findById(articleId).orElseThrow { Exception("Article not found") }
         val obj = likeRepository.findByArticleAndUser(article, user)
         return obj?.status
     }
 
     @Transactional
-    fun like(request: LikeRequest){
-        val article = articleRepository.findById(request.articleId).orElseThrow { Exception("Article not found") }
-        val user = memberRepository.findByUserId(request.userId).orElseThrow { Exception("User not found") }
+    fun like(request: LikeRequest) {
+        val article = articleRepository.findById(request.articleId)
+            .orElseThrow { Exception("Article not found") }
+        val user = memberRepository.findByUserId(request.userId)
+            .orElseThrow { Exception("User not found") }
         var obj = likeRepository.findByArticleAndUser(article, user)
 
         // 기존에 like 한 이력이 있을 경우
-        if(obj != null){
-            if(obj.status!!){
+        if (obj != null) {
+            if (obj.status!!) {
                 article.likeCount--;
                 obj.status = false
-            }
-            else{
+            } else {
                 article.likeCount++;
                 obj.status = true
             }
+
+            // 이벤트 발행
+            eventPublisher.publishEvent(ArticleLikedEvent(this, user.id!!, article.id, LikedEventStatus.CANCELED))
         }
         // 기존에 like 한 이력이 없을 경우
-        else{
+        else {
             obj = ArticleLikes(article = article, user = user)
             article.likeCount++;
+
+            // 이벤트 발행
+            eventPublisher.publishEvent(ArticleLikedEvent(this, user.id!!, article.id, LikedEventStatus.COMPLETED))
         }
+
         likeRepository.save(obj)
         articleRepository.save(article)
     }

@@ -7,12 +7,15 @@ import catchweak.web.news.dao.ArticleComment
 import catchweak.web.news.dao.ArticleCommentReply
 import catchweak.web.news.dto.ArticleCommentListDTO
 import catchweak.web.news.dto.ArticleCommentReplyListDTO
+import catchweak.web.news.event.ArticleCommentedEvent
+import catchweak.web.news.event.status.CommentEventStatus
 
 import catchweak.web.news.payload.request.CommentRequest
 import catchweak.web.news.payload.request.ReplyRequest
 import catchweak.web.news.repository.ArticleCommentRepository
 import catchweak.web.news.repository.ArticleRepository
 import catchweak.web.news.repository.ArticleCommentReplyRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,18 +25,29 @@ class ArticleCommentService(
     private val articleRepository: ArticleRepository,
     private val memberRepository: MemberRepository,
     private val commentRepository: ArticleCommentRepository,
-    private val replyRepository: ArticleCommentReplyRepository
+    private val replyRepository: ArticleCommentReplyRepository,
+    private val eventPublisher: ApplicationEventPublisher
 ) {
 
     fun getComments(articleId: Long, pageable: Pageable): ArticleCommentListDTO {
         val article = loadArticle(articleId)
-        val commentDTO = ArticleCommentListDTO(comments = commentRepository.findByArticleAndDeletedFalseOrderByCreatedAtDesc(article, pageable), count = loadCommentCount(article))
+        val commentDTO = ArticleCommentListDTO(
+            comments = commentRepository.findByArticleAndDeletedFalseOrderByCreatedAtDesc(
+                article,
+                pageable
+            ), count = loadCommentCount(article)
+        )
         return commentDTO
     }
 
     fun getReplies(commentId: Long, pageable: Pageable): ArticleCommentReplyListDTO {
         val comment = loadComment(commentId)
-        val replyDTO = ArticleCommentReplyListDTO(replies = replyRepository.findByParentCommentAndDeletedFalseOrderByCreatedAt(comment, pageable), count = loadReplyCount(comment))
+        val replyDTO = ArticleCommentReplyListDTO(
+            replies = replyRepository.findByParentCommentAndDeletedFalseOrderByCreatedAt(
+                comment,
+                pageable
+            ), count = loadReplyCount(comment)
+        )
         return replyDTO
     }
 
@@ -43,6 +57,9 @@ class ArticleCommentService(
         val article = loadArticle(request.articleId)
 
         val comment = ArticleComment(article = article, user = user, comment = request.comment)
+
+        eventPublisher.publishEvent(ArticleCommentedEvent(this, user.id!!, article.id, CommentEventStatus.CREATED))
+
         return commentRepository.save(comment)
     }
 
@@ -51,7 +68,9 @@ class ArticleCommentService(
         val user = loadUser(request.userId)
         val comment = loadComment(request.parentCommentId)
 
-        val reply = ArticleCommentReply(user = user, parentComment = comment, comment = request.comment)
+        val reply =
+            ArticleCommentReply(user = user, parentComment = comment, comment = request.comment)
+
         return replyRepository.save(reply)
     }
 
@@ -102,6 +121,10 @@ class ArticleCommentService(
         replyRepository.saveAll(childReplies)
 
         commentRepository.save(comment)
+
+        val user = loadUser(request.userId)
+
+        eventPublisher.publishEvent(ArticleCommentedEvent(this, user.id!!, request.articleId, CommentEventStatus.DELETED))
     }
 
     @Transactional
@@ -118,11 +141,11 @@ class ArticleCommentService(
         replyRepository.save(replyObj)
     }
 
-    private fun loadComment(commentId: Long): ArticleComment{
+    private fun loadComment(commentId: Long): ArticleComment {
         return commentRepository.findById(commentId).orElseThrow { Exception("Comment not found") }
     }
 
-    private fun loadReply(replyId: Long): ArticleCommentReply{
+    private fun loadReply(replyId: Long): ArticleCommentReply {
         return replyRepository.findById(replyId).orElseThrow { Exception("Reply not found") }
     }
 
@@ -130,7 +153,7 @@ class ArticleCommentService(
         return memberRepository.findByUserId(userId).orElseThrow { Exception("User not found") }
     }
 
-    private fun loadArticle(articleId: Long): Article{
+    private fun loadArticle(articleId: Long): Article {
         return articleRepository.findById(articleId).orElseThrow { Exception("Article not found") }
     }
 
